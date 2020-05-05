@@ -16,7 +16,7 @@
 * [Fundamentals](./fundamentals)
 	* [Regions](./fundamentals/regions)
 	* [IAM](./fundamentals/IAM)
-	* [EC2](./fundamentals/EC2)
+	* [EC2 & Security Groups](./fundamentals/EC2)
 	* [ELB](./fundamentals/ELB)
 	* [ASG](./fundamentals/ASG)
 	* [EBS](./fundamentals/EBS)
