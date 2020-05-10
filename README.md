@@ -13,7 +13,7 @@
 	* Elasticity & Scalability
 	* Vertical Scaling vs Horizontal Scaling
 	* Shared Security Responsibility Model
-* [Fundamentals](./fundamentals)
+* [Fundamentals (3-tier web apps)](./fundamentals)
 	* [Regions](./fundamentals/regions)
 	* [IAM](./fundamentals/IAM)
 	* [EC2 & Security Groups](./fundamentals/EC2)
@@ -24,3 +24,4 @@
 	* [RDS](./fundamentals/RDS)
 	* [ElastiCache](./fundamentals/ElastiCache)
 	* [VPC](./fundamentals/VPC)
+	* [S3](./fundamentals/S3)
