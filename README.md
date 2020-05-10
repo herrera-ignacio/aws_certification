@@ -30,6 +30,17 @@
 	* AWS SDK
 * [Deploying on AWS](./deploying)
 	* [Elastic Beanstalk](./deploying/beanstalk)
+	* CI/CD
+		* [CodeCommit](./deployment/codecommit)
+		* [CodePipeline](./deployment/codepipeline)
+		* [CodeBuild](./deployment/codebuild)
+		* [CodeDeploy](./deployment/codedeploy)
+	* Infrastructure as Code
+		* [CloudFormation](./deployment/cloudformation)
+	* Monitoring, Troubleshooting & Audit
+		* [CloudWatch](./deployment/cloudwatch)
+		* [X-Ray](./deployment/xray)
+		* [CloudTrail](./deployment/cloudtrail)
 * [Application decoupling & integration](./integration)
 * [Serverless](./serverless)
 * [Always Secure](./security)

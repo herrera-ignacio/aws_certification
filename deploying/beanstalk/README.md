@@ -189,3 +189,18 @@ __Decoupling__ your application into two tiers is common.
 You can define periodic tasks in a file `cron.yaml`.
 
 ![worker](./worker.png)
+
+## RDS with Elastic Beanstalk
+
+RDS can be provioned with Beanstalk:
+* Great for dev/test
+* Not great for prod as database lifecycle is tied ot the Beanstalk environment lifecycle
+* Best for prod is to separately create an RDS database and provide our EB application with the connection string.
+
+Steps to migrate from RDS coupled in EB to standalone RDS:
+* Take an RDS DB Snapshot
+* Enable deletion protection in RDS
+* Create new environment without an RDS, point to existing old RDS
+* Perform blue/green deployment and swap new and old environments
+* Terminate the old environment (RDS won't get deleted thanks to protection)
+* Delete CloudFormation stack (will be in DELETE_FAILED stack)
