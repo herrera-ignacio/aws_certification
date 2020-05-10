@@ -26,3 +26,11 @@
 	* [VPC](./fundamentals/VPC)
 	* [S3](./fundamentals/S3)
 * [Developing on AWS](./developing)
+	* AWS CLI
+	* AWS SDK
+* [Deploying on AWS](./deploying)
+	* [Elastic Beanstalk](./deploying/beanstalk)
+* [Application decoupling & integration](./integration)
+* [Serverless](./serverless)
+* [Always Secure](./security)
+* [Other services](./other-services)
