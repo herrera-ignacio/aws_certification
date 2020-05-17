@@ -27,6 +27,7 @@
 	* [VPC](./fundamentals/VPC)
 	* [S3](./fundamentals/S3)
 		* [Athena](./fundamentals/S3/Athena)
+	* [CloudFront](./fundamentals/CloudFront)
 * [Developing on AWS](./developing)
 	* AWS CLI
 	* AWS SDK
@@ -40,9 +41,9 @@
 	* Infrastructure as Code
 		* [CloudFormation](./deployment/cloudformation)
 	* Monitoring, Troubleshooting & Audit
-		* [CloudWatch](./deployment/cloudwatch)
-		* [X-Ray](./deployment/xray)
-		* [CloudTrail](./deployment/cloudtrail)
+		* [CloudWatch](./deployment/monitoring/cloudwatch)
+		* [X-Ray](./deployment/monitoring/xray)
+		* [CloudTrail](./deployment/monitoring/cloudtrail)
 * [Application decoupling & integration](./integration)
 * [Serverless](./serverless)
 * [Always Secure](./security)
