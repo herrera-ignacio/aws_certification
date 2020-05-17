@@ -26,6 +26,7 @@
 	* [ElastiCache](./fundamentals/ElastiCache)
 	* [VPC](./fundamentals/VPC)
 	* [S3](./fundamentals/S3)
+		* [Athena](./fundamentals/S3/Athena)
 * [Developing on AWS](./developing)
 	* AWS CLI
 	* AWS SDK

@@ -17,7 +17,19 @@
 * CORS
 * Consistency Model
 * Performance
+* Storage Classes
+    * Standard - General Purpose
+    * Standard-Infrequent Access (IA)
+    * One Zone-Infrequent Access
+    * Intelligent Tiering
+    * Glacier
+    * Glacier Deep Archive
 * S3 & Glacier Select
+* Transition between storage classes
+* Replication
+* Pre-Signed URLS
+* Event Notifications
+* S3 Object Lock & Glacier Vault Lock
 
 #### Overview
 
@@ -141,8 +153,12 @@ Supports VPC Endpoints (without 'www')
 
 #### Logging and Audit
 
-* S3 access logs can be stored in other S3 bucket
+![logging](./logging.png)
+
+* S3 access logs can be stored in other S3 bucket (if you use same bcket, it will create a logging loop...)
+    * Including denied requests.
 * API calls can be logged in AWS _CloudTrail_
+* Data can be analyzied using data analysis tools or __Amazon Athena__.
 
 #### User Security
 
@@ -160,6 +176,8 @@ Supports VPC Endpoints (without 'www')
 * Cross Origin Resource Sharing allows you to limit the number of websites that can request your files in S3 (and limit your costs)
 
 ![cors](./cors.png)
+
+![cors2](./cors2.png)
 
 ## Consistency Model
 
@@ -198,6 +216,10 @@ Supports VPC Endpoints (without 'www')
 * S3 Transfer Acceleration (uses edge locations), just need to change the endpoint you write to.
 * If using SSE-KMS encryption, you may be limited to your AWS limits for KMS usage (~100 - 1000 downloads / uploads per second)
 
+## Storage Classes
+
+![storage classes](./storage-classes.png)
+
 ## S3 & Glacier Select
 
 With S3 Select / Glacier Select, you can SQL _SELECT_ queries ot let S3 or Glacier know exactly which attributes/filter you want, this is useful when you want to retrieve only a __subset__ of data.
@@ -207,3 +229,86 @@ With S3 Select / Glacier Select, you can SQL _SELECT_ queries ot let S3 or Glaci
 * Works with files in CSV, JSON or Parquet format
 * Files can be compressd with GZIP or BZIP2
 * No subqueries or Joins are supported
+
+## Transtion beteen storage classes
+
+![transitions](./transition-classes.png)
+
+You can transition objects between storage classes:
+* Infrequently accessed object -> STANDARD_IA
+* Archive objects you don't need in real-time -> GLACIER or DEEP_ARCHIVE
+
+Moving objects can be automated using a __lifecycle configuration__.
+
+#### S3 Lifecycle Rules
+
+* __Transition Actions__: defines when objects are transitioned to anoter storage class.
+    * Move objects to STANDARD_IA 60 days after creation
+    * Move to Glacier for achiving after 6 months
+* __Expiration Actions__: configure objects to expire (delete) after some time.
+    * Access log files can bet set to delete after 365 days
+    * Can be used to delete __old versions__ of files (if versioning is enabled)
+    * Can be used to delete incomplete multi-parts uploads.
+
+Rules can be created for a __certain prefix__ (ex - s3://mybucket//myfolder/*) and for __certain objects tags__ (ex: Departament: MyDepartment).
+
+## S3 Replication (CRR & SRR)
+
+![replication](./replication)
+
+* __Must enable versioning__ in source and destination
+* Cross Region Replicaton (CRR)
+    * Compliance
+    * Lower latency access
+    * Replication across accounts
+* Same Region Replication (SRR)
+    * Log aggregation
+    * Live replication between production and test accounts
+* Buckets can be in different accounts
+* Copying is __asynchronous__
+* Must give proper IAM permissions to S3
+* After activating, __only new objects are replicated (not retroactive)__
+* There is no "chaining" of replications (not transitive)
+
+## Pre-Signed URLs
+
+You can generaet pre-signed URLs using SDK or CLI for __downloads (CLI) & uploads (SDK)__.
+
+They are valid for a default of 3600 seconds, can change timeout with `--expires-in <SECONDS>`.
+
+Users given a pre-signed URL inherit the permissions of the person who generated the URL for GET/PUT.
+
+#### Use cases
+
+* Allow only logged-in users to download a premium video on your S3 bucket
+* Allow an ever changing list of users ot download files by generating URLs dynamically
+* Allow temporarily a user to upload a file to a precise location in our bucket
+
+## Event Notifications
+
+![events](./events.png)
+
+S3 event notifications typically deliver events in seconds but can sometimes take a minute or longer. 
+
+If you want to ensure that an event notification is sent for every successfull write, you can enable versioning on your bucket. If two writes are made to a single non-versioned object at the same time, it is possible that only a single event notification will be sent.
+
+Examples:
+* S3:ObjectCreated
+* S3:ObjectRemoved
+* S3:ObjectRestore
+* S3:Replication
+
+Features:
+* Object name filtering possible (*.jpg)
+* Use case: generate thumbnails of images upladed to S3
+* __Can create as many "S3 Events" as desired
+
+## S3 Object Lock & Glacier Vault Lock
+
+![lock](./lock.png)
+
+Adopt a __WORM (Write Once Read Many)__ model, by blocking an object version deletion for a specified amount of time.
+
+Glacier Vault Lock follows the same approach but by blocking the policy for future edis.
+
+__Helpful for compliance and data retention__.
