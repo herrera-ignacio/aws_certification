@@ -59,7 +59,7 @@ Lowest cost HDD volume designed for less frequently accessed workloads.
 
 ## EBS vs Instance Store
 
-* Instance Store has better I/O performance.
+* Instance Store has better I/O performance because it's a __phyisical driver attached to your phyisical server__.
 * On termination, Instance Store is lost.
 * Can't resize Instance Store.
 * Instance Store's Backups must be operated by the user.

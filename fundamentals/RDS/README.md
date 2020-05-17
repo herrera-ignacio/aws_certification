@@ -18,6 +18,8 @@ It allows you to create databases in the cloud that are managed by AWS:
 * Backups
 * Snapshots
 * Encryption
+	* At Rest
+	* In Flight
 * Security
 * RDS Aurora
 
@@ -47,6 +49,18 @@ You can have __up to 5 Read Replicas__.
 
 ![read replicas](./read-replicas.png)
 
+#### Read - Replicas Network Cost
+
+In AWS, there's a network cost when data goes from one AZ to another. To reduce the cost, you can have your Read Replicas in the same AZ.
+
+#### Read Replicas - Use Cases
+
+* Production database taking on normal load
+* You want to run a reporting application to run some analytics
+* You create a Read Replica to run the new workload there
+* Production applications is unaffected
+* Read Replicas are used for SELECT(=read) only kind of statements.
+
 ## RDS Multi AZ (Disaster Recovery)
 
 * __SYNC__ replication
@@ -74,8 +88,22 @@ Backups aure __automatically enabled__ in RDS.
 
 ## RDS Encryption
 
-* Encryption at rest capability with AWS KMS - AES-256 encryption
-* SSL certificates to encrypt data to RDS in flight
+* Can encrypt at rest or in flight
+* Encryption has to be defined at launch time
+* If master is not encrypted, read replicas cannot be encrypted
+* To encrypt an un-encrypted RDS database:
+	* Create a snapshot of it, copy it and enable encryption for snapshot.
+	* Restore datase from encrypted snapshot
+	* Migrate applications to new database and delete the old one.
+
+#### Encryption - At Rest
+
+* Possibility to encrypt master & read replicas with AWS KMS - AES-256 encryption.
+* TDE (Transparent Data Encryption) available for Oracle and SQL Server
+
+#### Encryption - In Flight
+
+* SSL Certificates to encrypt data to RDS in flight
 * To _enforce_ SSL:
 	* __PostgreSQL__: `rds.force_ssl=1` in Parameter Groups
 	* __MySQL__: within the DB, `GRANT USAGE ON *.*TO 'mysqluser'@'%' REQUIRE SSL;`
@@ -89,7 +117,8 @@ Backups aure __automatically enabled__ in RDS.
 * Leveraging Security Groups (as with EC2 instances), controlling who can _communicate_ with RDS.
 * IAM policies help control who can _manage_ AWS RDS.
 * Traditional username and password can be used to _login_ to the database.
-	* IAM users can now be used too (for MYSQL / Aurora)
+* IAM users be used too (for MYSQL / PostgreSQL/ Aurora)
+	* It works by using an authentication token obtained through IAM & RDS API calls, and has a lifetime of 15 minutes.
 
 ## RDS vs Aurora
 

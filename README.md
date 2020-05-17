@@ -22,6 +22,7 @@
 	* [EBS](./fundamentals/EBS)
 	* [Route 53](./fundamentals/Route53)
 	* [RDS](./fundamentals/RDS)
+		* [Aurora](./fundamentals/RSD/Aurora)
 	* [ElastiCache](./fundamentals/ElastiCache)
 	* [VPC](./fundamentals/VPC)
 	* [S3](./fundamentals/S3)
